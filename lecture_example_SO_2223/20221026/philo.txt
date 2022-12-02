@@ -1,0 +1,3 @@
+
+....
+	philo[i] puo' mangiare solo se philo[(i+1) %5] e philo[(i+4) % 5] non stanno mangiando

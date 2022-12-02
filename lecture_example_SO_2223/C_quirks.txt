@@ -1,0 +1,45 @@
+* blanks
+* comments
+constants (UTF-8)
+* void / void *
+* int overflow
+* increment/decrement / modifying assignment
+* logical ops/binary ops !!
+* short circuit of logical ops
+* conditional
+* comma operator
+* sizeof
+pointer arithmetic
+* field alignment
+zero len array in struct
+struct bit fields
+array and struct init (designated initializers for struct and arrays)
+* struct assignment
+union
+unnamed fields in struct/union
+temporary structure/union (structure constructors)
+incomplete types
+switch break / case ranges / default
+goto
+local vs global var init
+extern
+static local vars
+const
+* volatile
+function pointers
+variable arg list
+* inline fun
+* omitted for args
+type casting
+
+multiple #include protection
+variadic macro
+predefined macro
+do {} while(0)
+#if 0
+malloc/realloc/free
+stdint uintptr_t
+typeof
+printf/sprintf/snprintf
+
+offsetof (stddef.h)

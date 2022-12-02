@@ -1,0 +1,62 @@
+   94  cd /
+   95  ls
+   96  cd /home/
+   97  ls
+   98  cd 
+   99  pwd
+  100  clear
+  101  ls
+  102  ls /home/so2223/lecture_examples/20220929/
+  103  ls /home/so2223/lecture_examples/20220928/
+  104  ls lecture_examples/20220928/
+  105  man man
+  106  man -k fork
+  107  man ls
+  108  man man
+  109  ls .
+  110  ls -l .
+  111  ls -la .
+  112  clear
+  113  echo $PATH
+  114  ls 
+  115  cat 
+  116  cat > /tmp/out
+  117  cat < /tmp/out
+  118  cat < /tmp/out > /tmp/out_2
+  119  cat /tmp/out
+  120  cat /tmp/nonesiste > /tmp/out
+  121  ls | sort -r
+  122  clear
+  123  ls | sort -r
+  124  cd /tmp/
+  125  ls -l out*
+  126  echo ciao
+  127  echo ciao > out
+  128  diff out out_2 
+  129  echo Ciao > out
+  130  diff out out_2 
+  131  od -cx out
+  132  od -cx out_2 
+  133  man ascii
+  134  cp out out_3
+  135  diff out out_3
+  136  mv out_3 out_4
+  137  mkdir mydir
+  138  cp out out_2 out_4 mydir
+  139  cd mydir/
+  140  ls
+  141  ls -l
+  142  mkdir altronome
+  143  rmdir altronome/
+  144  cd ..
+  145  rmdir mydir/
+  146  rm -rf mydir/
+  147  yes
+  148  yes > /dev/null
+  149  bg
+  150  top
+  151  ps -ax | grep "yes"
+  152  kill 453269
+  153  ps -ax | grep "yes"
+  154  history
+  155  history > comandi_20220929

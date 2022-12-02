@@ -1,0 +1,71 @@
+philo[i] puo' mangiare solo se philo[(i+1) %5] e philo[(i+4) % 5] non stanno mangiando
+
+#define PR(i) (i + 1) % 5
+#define PL(i) (i + 4) % 5
+
+philo[i]: while true:
+	think
+	< await !eating[PR(i)] && !eating[PL(i)]  -> eating[i] = True >
+	eat!
+	< eating[i] = False >
+
+semaphore mutex(1)
+semaphore ok2eat[5] init 0
+int waiting[5] = 0,0,0,0,0
+int eating[5] = F,F,F,F,F
+
+
+philo[i]: while true:
+	think
+	// < await !eating[PR(i)] && !eating[PL(i)]  -> eating[i] = True >
+	mutex.P()
+	if (eating[PR(i)] || eating[PL(i)]) {
+		waiting[i]++; mutex.V(); ok2eat[i].P();waiting[i]--;
+	}
+	eating[i] = True
+  SIGNAL()
+	eat!
+	// < eating[i] = False >
+	mutex.P()
+	eating[i] = False
+	SIGNAL()
+
+
+SIGNAL()
+	for (k =0; k < 5; k++) {
+		if !eating[PR(k)] && !eating[PL(k)] && waiting[k] > 0 {
+			ok2eat[k].V()
+			break;
+		}
+	}
+	if (k == 5)
+		mutex.V()
+
+/////////////
+
+semaphore mutex(1)
+semaphore ok2eat[5] init 0
+int waiting[5] = 0,0,0,0,0
+int eating[5] = F,F,F,F,F
+
+
+philo[i]: while true:
+	think
+	mutex.P()
+	if (eating[PR(i)] || eating[PL(i)]) {
+		waiting[i]++; mutex.V(); ok2eat[i].P();
+	} else
+		mutex.V()
+	eat!
+	// < eating[i] = False >
+	mutex.P()
+	eating[i] = False
+	if (!eating[PR(PR(i))] && waiting[PR(i)] > 0)
+		waiting[PR(i)]--
+		eating[PR(i)] = True
+		ok2eat[PR(i)].V()
+	if (!eating[PL(PL(i))] && waiting[PL(i)] > 0)
+		waiting[PL(i)]--
+		eating[PL(i)] = True
+		ok2eat[PL(i)].V()
+  mutex.V()
