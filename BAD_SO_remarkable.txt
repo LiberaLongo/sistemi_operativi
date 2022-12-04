@@ -655,3 +655,77 @@ Divisione per 0 o istruzione illegale vengono generati direttamente
 dal processore. 
 pausa (min 1:07:45). 
 
+------------------------------------------------------------------------------------
+
+sistemi operativi anno 2021-2022 registrazioni 20 semestre 
+
+2022-02-25 pt 2 
+
+slide 01-arch.hw.pdf 
+
+(fine pausa, riprendiamo) 
+
+Allora, mi raccomando un controller è un pezzo di hardware, 
+
+il driver è un pezzo di software. Oggi purtroppo nei 
+
+sistemi moderni è difficile vedere dove siano i controller. 
+
+Se prendete una scheda madre, più o meno moderna anche se 
+
+è meglio se un pò vecchiaia, si vedono perfettamente i bus e 
+
+i connettori 
+
+Nota: 2022-02-25 pt 2 
+
+LA REGISTRAZIONE è 
+
+MOLTO SALTELLANTE... 
+
+molti BUCHI ⇒ molte righe vuote 
+
+⇒ 
+
+perché scrivere tutto è impossibile! 
+
+anche tornando indietro con l'audio 
+
+ascoltate il amiku 
+
+quindi alle pagine successive scrivo sulle slide o in 
+
+grigio schenini ... potete scrivere nel etat... 
+
+... aggiungere pagine... lasciate questa nota! 
+
+> aggiungendo pagine al golf Dopo aver scritto le altre 
+
+registrazioni [si lo posso fare DOPO! 
+
+• • • 
+
+di cosa parla la lezione ? 
+
+cerca su google PCI BUS 
+
+internet tra 
+
+vedi 
+
+immagini 
+
+01-arch-kw. golf 
+
+da pag 6 a pag 17 
+
+gestione internet > "Internet Driven" operative Systems
+Intempt Multipli disabilitazione internet > intempt annidati
+
+------------------------------------------------------------------------------------
+>>>>>>>>>> DA MODIFICARE IL FILE ./secondo_semestre_backup_separate/2022-03-03/BAD_2022-03-03.txt <<<<<<<<<<<<<<
+
+
+
+
+

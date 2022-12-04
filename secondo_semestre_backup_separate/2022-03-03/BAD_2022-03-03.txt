@@ -1,0 +1,698 @@
+sistemi operativi anno 2021-2022 registrazioni 20 semestre 
+
+2022-03-03 
+
+slide 01-arch.hw.pdf
+
+Cravatta di oggi: "Ponti Giapponesi di Monet" qual'è il messaggio? 
+
+è sempre impressionista, ma il messaggio è più nel PONTE 
+
+oggi. Bisogna costruire ponti. Muri, bombe o altre cose 
+
+distruggono il vivere civile, i ponti uniscono. Non a caso i Papi 
+
+venivano spesso chiamati "pontefici "⇒ che creavano ponti. 
+
+ok. torniamo a Sistemi Operativi. Avete dubbi o domande? 
+
+Riassunto delle puntate precedenti: 
+
+Stiamo iniziando a guardare come costruire Sistemi Operativi 
+
+mentre prima abbiamo visto come usarli, cosa sono. 
+
+E stiamo guardando di capire alcuni particolari relativi all' 
+
+architettura, all'hardware. Nello schema che abbiamo visto 
+
+un pacco di lucidi prima, abbiamo visto che il sistema 
+
+operativo è quello strato che crea un astrazione sull'hardware. 
+
+Quindi se volete costruire un Sistema Operativo dovete sapere 
+
+come funziona l'hardware, qual'è il linguaggio parlato 
+
+dall' hardware. Abbiamo visto dall'inizio di questo pacco di 
+
+lucidi" cosa sono gli interrupt?"," Perché gli interrupt sono 
+
+così importanti?" e che diventano veramente il motore che fa 
+
+funzionare i sistemi operativi. Andiamo poi a vedere quelle che 
+
+sono le risorse che il sistema operativo deve gestire. 
+
+Eravamo arrivati qua (slide 23 01-anch-hw. golf) se ricordo bene. 
+
+Una risorsa molto importante, fondamentale è la RAM 
+
+(Random Access Memory) per come sono costruiti i sistemi 
+
+/ 
+
+• • • 
+
+oggi. La RAM è la memoria veloce, direttamente accessibile 
+
+al processore volatile. Non sempre i sistemi erano fatti 
+
+così, il primo sistema che ho usato nella mia vita aveva 
+
+una memoria ai nuclei di ferrite, e quindi quella che era 
+
+la memoria di lavoro era non volatile, era permanente. 
+
+Mentre invece nei sistemi comuni oggi si tende a usare la RAM. 
+
+La RAM assieme ai registri è l'unico spazio di memorizzazione 
+
+acceduto direttamente dal processore. Per accedere a memoria 
+
+secondaria e terziaria ed altre risorse, non lo si fa direttamente 
+
+parlando con il bus, ma bisogna tramite il bus dare dei comandi 
+
+a dei controller che accedono al device. La RAM nei sistemi moderni 
+
+è chiamata RAM statica, viene costruita con praticamente dei 
+
+condensatori che si caricano, deve essere rinfrescato il contenuto 
+
+perché tende a scemare con il tempo, ma tutta questa attività è 
+
+invisibile al kernel perché viene fatta direttamente dai moduli 
+
+della RAM stessa. Quindi per quanto riguarda l'uso della RAM 
+
+si accede direttamente al bus mettendo l'indirizzo a cui si 
+
+vuole leggere e scrivere e si da il comando LOAD/STORE. 
+
+Nei sistemi moderni, però, l'indirizzamento della RAM non viene 
+
+attuato in maniera diretta ma tramite un unità fisica, un 
+
+componente fisico chiamato Memory Management Unit (MMU). 
+
+Mi raccomando per le abbreviazioni e i concetti similari: 
+
+Esiste una cosa chiamata Memory Mager, che è una componente 
+
+del sistema operativo e del software. Esiste una cosa chiamata 
+
+Memory Management Unit che è una componente hardware 
+
+ed è il componente che interfaccia la memoria. 
+
+• • • 
+
+Se volete il Memory Manager è il componente del sistema 
+
+operativo che pilota, programma, configura la MMU. ok. 
+
+Esistono ancora nei sistemi delle ROM (Read Only Memory), 
+
+pensate a apron o Cmos ram, alimentate, cioè memorie 
+
+normalmente utilizzate in sola lettura. Tipicamente queste 
+
+memorie vengono utilizzate per funzionalità molto basilari, 
+
+per esempio per fare il boot della macchina. Lo avete 
+
+un pò visto anche quando avete visto un pò di 
+
+architettura di pimps (microumps). (pag 24) 
+
+Esistono alcuni dispositivi che sono MEMORY MAPPED, che 
+
+si riescono ad accedere come se fossero memoria, ad esempio 
+
+il video grafico dei Personal Computer. Ad alcuni indirizzi 
+
+di bus corrispondono delle aree che non sono vere aree di 
+
+memoria, ma dove il sistema può scrivere dei dati e questi 
+
+dati vengono letti in tempo reale. E una memoria a doppio 
+
+accesso: Il bus scrive da un lato e dall'altro vengono letti 
+
+da un componente, la scheda grafica, che prende questi 
+
+valori scritti come valori normalmente come luminosità 
+
+RGB (Red Green Blue, i tre colori) per accendere i 
+
+vari pixel sullo schermo. Lo schermo grafico viene acceduto 
+
+in questo modo, la gestione è semplice e lineare perché 
+
+in questa modalità uno sa calcolare l'indirizzo di quel 
+
+pixel, scrivere un valore e il valore diventa una luminosità 
+
+di un pixel. Ma dall'altra parte necessito di sincronizza­zione di accesso. Essendoci due componenti che contemporanea­mente accedono a questa memoria a doppio accesso, quello 
+
+• • • 
+
+che succede è che ci vogliono meccanismi di sincronirroriore 
+
+talvolta fatti in maniera hardware, perché ad esempio 
+
+il video non faccia FLICKERING (Dizionario Oxford... 
+
+sostantivo, lo sfarfallio dell'immagine sullo schermo 
+
+di un televisore o di un computer.). Quindi spesso c'è 
+
+una doppia memoria, viene scritto il nuovo frame poi 
+
+si dà l'impulso per fare in modo che il nuovo 
+
+frame diventi quello visibile dall'utente. (pag 25) 
+
+DISCHI! Nonostante l'avvento, nonostante la presenza di 
+
+dischi allo stato solido (Solid state Drive ⇒ SSD) si usano 
+
+tantissimo ancora i dischi rotazionali, i dischi convenzionali, 
+
+quelli che abbiamo visto alla prima lezione di questo 
+
+semestre direttamente aperti. I dischi sono dispositivi che memorizzano 
+
+l'informazione in forma magnetica e quindi mantengono l'informazione 
+
+in maniera non volatile, significa che anche se togliete l'alimentazione 
+
+potete ritrovare i dati scritti. L'accesso è diretto (random i. e. non 
+
+sequenziale). Per capire questa affermazione bisogna vedere che 
+
+esistono anche dei dispositivi magnetici ad accesso sequenziale, 
+
+che erano i nastri, i tape (erano ad accesso sequenziale). 
+
+. .. 
+
+L'indirizzamento su disco è dato in termini di 3 parametri: 
+
+cilindro, settore e testina. Per cambiare cilindro, penso lo 
+
+abbiate visto anche ad architettura, quindi non sto a dilungarsi tanto, 
+
+c'è il pettine delle testine e quindi se voi non muovete il 
+
+pettine delle testine il disco gira e quindi tutto ciò che è 
+
+memorizzato con quella posizione delle testine è accedibile, vuoi 
+
+aspettando che durante una rotazione transiti il settore sotto la 
+
+• • • 
+
+testina, vuoi decidendo di usare una delle testine fra quelle 
+
+disponibili. Se invece uno vuole spostare il pettine delle testine, 
+
+quindi cambiare cilindro, si chiama cilindro perché ovviamente 
+
+se tenete le testine ferme il disco gira tutti i dati saranno a 
+
+una certa distanza dal punto di rotazione, quindi se lo 
+
+pensate geometricamente è un cilindro. Per cambiare cilindro ci 
+
+vuole un tempo meccanico di spostamento della testina. Per cambiare 
+
+settore ci vuole un tempo meccanico per aspettare che quel dato 
+
+che vogliamo leggere o scrivere passi sotto la testina. Per 
+
+cambiare testina non ci vuole tempo meccanico basta tempo 
+
+elettronico. Per intenderci per cambiare cilindro occorrono dei tempi 
+
+dell'ordine di millisecondi e dipende anche da quanti cilindri dovete 
+
+saltare, per cambiare settore il tempo si può anche calcolare, perché 
+
+quando comprate un disco il disco fa i parametri di lavoro a 
+
+il numero di giri al secondo. Se avete un disco a basso costo oppure 
+
+un disco che fa s'400 giri al minuto RPM (revolutions per 
+
+minute) e se prendete un disco molto costoso ne fa 15000, non 
+
+è che possiate avere un disco che fa 200.000 giri al minuto, 
+
+decollerebbe il computer:D no, non ce la si fa fisicamente 
+
+a costruirlo. Quindi se pensate 5400 giri... facciamo 600 
+
+per fare i conti pari se poi fosse 6000 giri al minuto al 
+
+secondo sono 100, quindi vuol dire 10 millisecondi, quindi anche 
+
+quello non è un tempo banale. ok? Grog 26) 
+
+Dal punto di vista del sistema operativo questo cosa significa? 
+
+Perché non è indolore avere questa gestione. Significa che le 
+
+operazioni di SEEK devono essere limitate e bisogna fare in modo 
+
+• • • 
+
+che siano brevi. Quindi quello che succede è che, visto che i vari 
+
+processi chiederanno in concorrenza di voler leggere e scrivere dati 
+
+su disco occorrerà avere anche in questo caso dei meccanismi di 
+
+scheduling di ordinamento delle richieste che ottimizzano il percorso 
+
+della testina su disco. ok? E altra cosa che incide più sull' 
+
+implementazione del file-system rispetto alla gestione fisica del 
+
+disco è quello di fare in modo che dati che vengono accaduti 
+
+spesso, in sequenza o vicini nel tempo siano vicini anche su 
+
+disco. Se voi utilizzate dei file-system, e lo vedremo, poco 
+
+efficenti, costruiti male, per esempio FAT (fila Allocation Table), 
+
+a forza di usarlo quel file system spargerà i "prezzi dei file" 
+
+in posti casuali del disco. ok? E quindi farà in modo che il 
+
+sistema man mano perda sempre di più di prestazioni. Ok? 
+
+Infatti sono quei file system per i quali è previsto 
+
+deframmentazione. Non so se avete mai fatto defray. 
+
+ma potevate scegliere altri file system che non avevano questo 
+
+tipo di problema. Mi vengono in mente 2 cose che vi faccio 
+
+vedere per rompere il ritmo. 
+
+su google cerca" cybersmare perso nel ciberspazio" 
+
+clicca su "Trappola nel Cyberspazio-Roberto di Cosmo" 
+
+link: https://www.dicosmo.org/Piege/cybersnare/trappola. html 
+
+Roberto di Cosmo, nonostante il nome è italianissimo ma vive 
+
+e lavora in Francia, insegna direi a Paris Diderot, 
+
+(legge il capitolo intitolato "armadi a cassetti e lavaggio dei cervelli") 
+
+e racconta: "Ebbene durante uno dei miei viaggi mi sono 
+
+ritrovato a fianco di un gentilissimo signore, giovane e dinamico 
+
+• • • 
+
+funzionario d'impresa, che si apprestava ad eseguire sulla sua 
+
+macchina il famigerato programma Defray. Questo programma 
+
+mostra una bella matrice riempita di piccoli quadrati di tanti 
+
+colori che si muovono in tutte le direzioni mentre il disco lavora 
+
+intensamente e rumorosamente. 
+
+Non ho potuto resistere alla tentazione (.): dopo essermi 
+
+complimentato per il suo bel portatile, gli ho chiesto, fingendo la 
+
+più grande ignoranza E di un famosissimo professore di 
+
+informatica] cosa fosse quel bellissimo programma che io 
+
+non avevo sul mio portatile. Con un aria di superiorità mista 
+
+a compassione (..) mi ha risposto che si trattava di uno strumento 
+
+essenziale che bisogna lanciare di tanto in tanto per" fare 
+
+andare la macchina più veloce". Ha proseguito ripetendosi a 
+
+memoria gli argomenti che si trovano nei manuali Windows: 
+
+più si utilizza il disco, più questo si "frammenta", e più il 
+
+disco è frammentato più la macchina è lenta. 
+
+A questo punto ho tirato fuori il mio computer portatile, 
+
+che non utilizza Windows, ma GNU/Linux ( ) e gli ho 
+
+detto con un'aria un pò stupita, che tutto quello che mi aveva 
+
+detto mi sorprendeva enormemente: sul mio portatile il disco 
+
+è molto poco frammentato e più si utilizza meno si frammenta. 
+
+[...] Questo disco è come un gigantesco armadio a cassetti: 
+
+ogni cassetto ha la stessa capienza e ciascun disco contiene 
+
+alcuni milioni di cassetti [meno di quelli di oggi]. Se i dati che vi 
+
+interessano sono sistemati in cassetti contigui, vi si può accedere 
+
+più velocemente C...]. 
+
+• • • 
+
+Immaginiamo un ministero che conserva i suoi dossiers in un 
+
+enorme armadio con milioni di cassetti [...]. 
+
+Se avete un segretario [lo metto al maschile perché 
+
+lo trovo più coerente...] con due candidati dalle 
+
+abitudini molto diverse uno che quando trova un 
+
+dossier si limita a vuotare i cassetti e quando trova uno 
+
+nuovo lo separa in piccoli fascicoli e li mette a casa 
+
+nel primo cassetto vuoto che trova. Un altro che conserva 
+
+sulla sua scrivania una lista di cassetti vuoti contigui 
+
+e aggiorna la lista tutte le volte che la pratica viene chiusa". 
+
+Questo lo trovo una maniera molto simpatica di raccontare 
+
+la frammentazione. 
+
+L'altra cosa che vi volevo far vedere (vediamo se lo trovo) 
+
+Cerca su google "Lest We Remember: Cold Boot Attacks on Encriptionkeys" 
+
+link: https://www.usenix.org/legacylevent/seco8/tech/full-papers/ 
+
+haldeman/haldeman. golf oppure 
+
+https://cigsite.s3.amazonaws.com/wq-content/uql o ad 5/2 0 19/ 
+
+0 1/2 3 1 9 5 4 5 6/ha 1 de m a n. p ol f . ) 
+
+"Voi pensate che la RAM sia volatile , in realtà qui" hanno fatto vedere un 
+
+attacco su chiavi crittografiche fatte sulla RAM in che modo? Prendendo 
+
+la RAM in funzione e facendo queste azioni velocissime, e poi neanche 
+
+troppo veloci, tempo qualche secondo: 
+
+Spegnere brutalmente la macchina senza che il sistema possa fare shutdown.
+Togliete la RAM e congelatela è ancora possibile leggere quello che c'è scritto sulla RAM.
+• • • 
+
+Interessante... ecco (pag 6, figura 4 dell' articolo) 
+
+Quella è l'immagine nella Ram e vedete il contenuto dopo 
+
+5 secondi . 30 secondi o 60 secondi e 5 minuti. Quindi congelato, entro 5 secondi avete ancora tantissime informazioni utili per vedere (ovviamente era un immagine ma l'hanno fatto vedere su chiavi crittografiche)..., in fondo chiavi crittografiche quando voi scrivete la password, è vero che nel sistema viene salvata in maniera crittografata e così via, ma per fare l'input della password quella password per un pò passa in RAM, in chiaro." Comunque per vostra informazione non penso vi sia utile per fare Sistemi Operativi a prova di congelamento della RAM. Quando si dice che la RAM è volatile è proprio perché è fatta con i condensatori, quindi i condensatori si scaricano pian piano, non c'è più il meccanismo di refresh perché non c'è più corrente, ma il contenuto può essere recuperato. ok. (pag 27) SSD. Ho aggiunto questo lucido perché anche SSD ha degli effetti collaterali sui sistemi operativi. Per capire cosa dobbiamo fare con i sistemi operativi dobbiamo capire quali sono le caratteristiche alle quali dobbiamo stare attenti di queste apparecchiature. Il numero di cicli di scrittura è limitato, alto ma limitato, quindi occorre per quanto possibile spargere uniformemente sulla gamma di indirizzi, cioè nello spazio memorizzabile le operazioni. Quindi è bene riciclare lo spazio riutilizzato in maniera da... non importa come nei dischi cercarlo vicino, ma occorre fare in modo di riciclare e riutilizzare ora ciò che abbiamo utilizzato in tempo più remoto,
+quali 
+
+• • • 
+
+in maniera tale da spargere l'accesso su tutti gli indirizzi. 
+
+Si leggono a blocchi. Si scrivono a banchi (numerosi blocchi) 
+
+Il meccanismo di scrittura dell'SSD prevede che la scrittura 
+
+non venga fatta per un blocco solo ma per un gruppo di 
+
+blocchi. Ok? Queste cose sono normalmente abbastanza mascherate 
+
+dai controller, ma meglio si sanno queste cose, per esempio è 
+
+bene fare in modo che cose che vengono aggiornate contestualmente 
+
+siano a indirizzi limitrofi. Per il numero di cicli di scrittura 
+
+limitato vedremo che ci sono degli effetti collaterali anche non solo 
+
+nella gestione fisica del dispositivo ma anche sul file system, per esempio 
+
+un caso tipico d'uso è quello di evitare di fare aggiornamenti non 
+
+necessari, grosse coche aiutano, ma tra l'altro nei sistemi UNIX, 
+
+per esempio è possibile, quando si monta un file system dichiarare 
+
+se si vuole' avere la data di ultimo accesso al file o no. 
+
+In realtà la data di ultimo accesso ad un file, accesso non 
+
+modifica, se togliete la data di modifica saltano un sacco di cose 
+
+per esempio make non funziona più. Mentre invece la data 
+
+di ultima lettura è raramente utile, quindi di solito se avete 
+
+dei dischi SSD si fa in modo che non venga aggiornata, 
+
+c'è il parametro di Mount che si chiama Roatime 
+
+no access time, che fa in modo che non ci sia questa 
+
+informazione aggiornata. Pensate" Quanti file leggete?" 
+
+"Quanti file scrivete?" "Quante volte leggete un file?". 
+
+pensate /etc/gassed tutte le volte che c'è un autenticazione 
+
+da qualche parte o si vuole vedere qual'è il nome 
+
+corrispondente a un utente c'è un accesso a quel file. 
+
+• • • 
+
+Quanto più velocemente degrada un disco allo stato solido (SSD) 
+
+se chiedete questo aggiornamento? Perché ovviamente i dati di 
+
+controllo continueranno a essere aggiornati ad ogni accesso, o quasi 
+
+si tenta di fare cache degli inode usati però.... (pag 28) 
+
+Quindi possiamo pensare di avere una gerarchia di memoria, 
+
+abbiamo tante memorie, abbiamo registri, RAM, dischi e anche 
+
+unita offline. 
+
+Andrew Tanenbaum ha detto 
+
+"Never underestimate the bandwidth of a station 
+
+wagon Full of tapes hurtling down the highway" 
+
+e il prof lo ha tradotto con: 
+
+"Non sottovalutate mai il bandwidth 
+
+di un vagone ferroviario carico di mostri" 
+
+google traduttore ha tradotto con: 
+
+"Non sottovalutare mai la larghezza di banda di 
+
+una station Wagon piena di nastri che sfreccia 
+
+lungo l'autostrada". 
+
+In realtà il bandwidth può essere notevolissimo, è difficile accenderlo... 
+
+E cosa c'entra con questo? Di solito le memorie vengono chiamate 
+
+memoria primaria, secondaria, terziaria. E prima ancora della 
+
+memoria primaria ci sono i registri. La memoria primaria è 
+
+quella direttamente accessibile dal processore, quindi normalmente la 
+
+RAM. La memoria secondaria è la memoria accessibile tramite un 
+
+controller dal processore quindi i dischi rigidi e i 55 D. La memoria 
+
+terziaria è memoria offline che può essere collegata in necessità, la 
+
+memoria terziaria normalmente ha bisogno di un intervento umano o 
+
+• • • 
+
+simili per farlo. 
+
+bot: che cosa intende per cicli di scrittura? 
+
+Per la SPD, quando dovete aggiornare il dato che avete memorizzato 
+
+sulla SDD dovete dare un comando di scrittura e quindi quello 
+
+è un ciclo di scrittura, il ciclo di scrittura fisico. 
+
+Come dicevo prima normalmente per farne il meno possibili 
+
+si tengono dei buffer, quindi se un dato un piccolo file viene 
+
+acceduto, modificato più volte in realtà non si fa alcuna scrittura 
+
+fisica, se non in fondo se il file non viene anche cancellato. ok? 
+
+Quindi l'idea è quante scritture fate, lo chiamo ciclo di scrittura e 
+
+non scrittura perché è diversa la scrittura che appare a voi quando 
+
+scrivete un programma fate una Write e la scrittura fisica che 
+
+viene fatta poi veramente sulla SDD. Come la chiavette USB, che in 
+
+fondo sono fatte più o meno della stessa pasta, se mai provate a 
+
+usarla pesantemente in lettura e scrittura e la staccata senza 
+
+fare l'operazione di chiusura di Umount su quella chiavetta ci 
+
+può essere di tutto, perché tenderà a fare meno scritture possibili 
+
+fisiche e molte cose quando l'andate a scollegare pensavate di 
+
+averle fatte ma erano ancora nel buffer. 
+
+Allora abbiamo una gerarchia di memoria (pag 29, figura) 
+
+registri guardiamo una riga si e una riga no. 
+
+memoria principale che è la RAM; memoria 
+
+Partendo dai 
+
+registri, 
+
+secondaria Dischi SDD; memoria terziaria. Poi c'è una 
+
+linea di demarcazione tra la memoria volatile e quella non volatile, 
+
+ma oltre gli elementi dispari nel mezzo ci sono gli elementi pori 
+
+che sono le CACHES. L'ultima parte l'ha un pò inventato per 
+
+• • • 
+
+domandarmi che cos'è oggi l'equivalente delle memorie terziarie. 
+
+In fondo oggi come memorie terziarie quello che si usa più 
+
+normalmente sono memorie allo stato solido removibili, mentre una volta 
+
+c'erano nastri, CD rom, DVD rom che hanno perduto sempre più 
+
+utilizzo perché risultano più costosi, più scomodi di unità allo 
+
+stato solido. Parliamo del concetto di cache importantissimo. 
+
+Che cos'è una CACHE? 
+
+Una cache è una porzione di memoria più veloce che 
+
+viene usata per mantenere temporaneamente i dati più utili 
+
+di una memoria più lenta. Facendo così statisticamente potrà 
+
+capitare frequentemente di poter ritrovare il dato senza andare 
+
+ad accedere alla memoria più lenta, ma trovandolo già disponibile 
+
+nella memoria più veloce. ok? Questo è un concetto astratto che potete applicare 
+
+a tutti i livelli, quindi per esempio nelle CPU nei processori ci sono delle cache 
+
+del contenuto della memoria, se guardate quando acquistate un processore o 
+
+acquistate una macchina con dentro un processore, nelle caratteristiche tecniche 
+
+del processore c'è scritto quanta cache c'è. Ok? Questa cache che vedete 
+
+la si (in figura p. 29) tra i registri e la memoria centrale è costruita 
+
+con le tecnologie dei registri quindi molto veloce e questa cache è gestita 
+
+direttamente dal processore quindi normalmente è trasparente ai sistemi operativi. 
+
+Quindi il sistema operativo /il programma applicativo non si accorge della 
+
+cache se non dal punto di vista prestazionale, quando si accede alla memoria 
+
+centrale automaticamente la cache fa il suo mestiere e tenta di mantenere 
+
+i dati più recentemente usati. Tutti questi meccanismi si basano su un 
+
+principio di... viene spesso detto in informatica di località, se 
+
+volete è l'equivalente informatico dell'inerzia. Ci si aspetta che dati limitrofi 
+
+• • • 
+
+in memoria, logicamente limitrofi in memoria e dati recentemente 
+
+utilizzati vengano utilizzati nel prossimo futuro, che non è una 
+
+regola generale. È possibile costruire dei programmi per fare in modo 
+
+che la cache lavori peggio possibile, però statisticamente le cose vanno 
+
+bene Non è totalmente indolore fare una cache, non è così banale, infatti 
+
+è stato un traguardo ingegneristico non banale, perché per esempio se 
+
+avete un sistema multiprocessore, ogniuno con la sua cache, occorrono 
+
+dei meccanismi, che i processori implementano, per invalidare la cache 
+
+degli altri processori se una modifica un dato nella cache, perché se 
+
+no risulta disallineato... Una delle garanzie che deve dare una cache 
+
+è che sia trasparente, che non si veda, che nessun programma abbia 
+
+risultati diversi se eseguito in un sistema con la cache o senza. 
+
+E quindi siccome la semantica di accesso, l'astrazione nell'accesso alla 
+
+memoria centrale è una semantica immediata, cioè mi aspetto che 
+
+se un programma scrive a quella locazione un dato dal momento in 
+
+cui è stata fatta l'operazione tutti gli altri possano leggere lo stesso 
+
+dato, occorre che la cache garantisca questa cosa, e per farlo deve 
+
+invalidare i contenuti delle cache degli altri processori. 
+
+Come c'è una cache tra la memoria centrale e i registri, si può 
+
+fare una cache dei contenuti dei dischi nella RAM. Ancora una volta 
+
+pensiamo la RAM ha velocità un milione di volte superiore a quella 
+
+del disco.
