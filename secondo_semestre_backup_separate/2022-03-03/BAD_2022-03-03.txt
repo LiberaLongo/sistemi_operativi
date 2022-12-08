@@ -695,4 +695,512 @@ fare una cache dei contenuti dei dischi nella RAM. Ancora una volta
 
 pensiamo la RAM ha velocità un milione di volte superiore a quella 
 
-del disco.
+del disco. Se andate a comprare della RAM, le caratteristiche tecniche 
+
+dicono tempi di accesso 8, 10, 10 è già scassina, 8 nanosecondi 
+
+(1 nanosecondo = 1ns-110-9s) nano ⇒ miliardesimi 
+
+milli (10-3), micro (10-6), nano (10-9), @io (10-12), fento (10-is), alto (10-18). 
+
+Prima abbiamo visto i dischi millisecondi sono millesimi. 
+
+• • • 
+
+quindi 2 miliardo diviso 1000 togliete 3 zeri 1 milione. 
+
+Ordini di grandezza, ma pensate che cos'è il rapporto di un 
+
+milione. Pensate che cosa succede in 1 secondo e che cosa 
+
+succede in un milione di secondi 9K? 
+
+Allora se si riescono a tenere i dati più utili nel prossimo futuro, 
+
+si riescono a tenere in RAM e non su disco, il sistema avrà un 
+
+aumento di prestazioni spaventoso. Ok? 
+
+Ecco questa cache, in realtà, nonostante il concetto sia lo stesso, questa 
+
+deve venire implementata dal sistema operativo, non è una cache 
+
+hardware, è una cache software. Ovviamente si può pensare di 
+
+fare la stessa cosa ad alto livello, per esempio se una delle unità in 
+
+cloud, che vanno benissimo però hanno una latenza notevole, perché 
+
+quando andate ad accedere alla rete, non so che latenza abbiate 
+
+voi nelle vostre connessioni di rete, ma se vi va bene sono almeno 
+
+10-15 millisecondi di" IRAM trick?" giusto per mandare il dato li 
+
+e tornare. Quindi può essere conveniente creare delle coche locali 
+
+in RAM o anche su dischi locali del materiale che c'è in giro. 
+
+Addirittura vedremo ci sono dei file system sperimentali, tipo 
+
+Andrew File System, che sono file system i cui dati sono sparsi 
+
+per il pianeta, potete avere server che vi formano un unico file system 
+
+sparsi, e li addirittura c'è la cache dell'intero file, e li hanno 
+
+dovuto cambiare la semantica d'accesso perché se no era insabile. 
+
+Comunque l'importante è che vi sia chiaro il concetto di CACHE. 
+
+(pag 307 Ok, questo più o meno l'ho detto. 
+
+(pag 31) Problemi da considerare. Tutte le volte che abbiamo 
+
+una cache c'è l'algoritmo di replacement. 
+
+• • • 
+
+Data la caratteristica della memoria, quella più veloce e più accessibile 
+
+è in quantità minore ed è più costosa e man mano si va a scemare. 
+
+Quella disponibile a tempi più elevati è normalmente più lenta, 
+
+enormemente meno costosa e disponibile in quantità molto più ampia. 
+
+Quindi, concetto chiave, la cache ha una dimensione standard più 
+
+piccola dell'unità che andiamo a ottimizzare. All'inizio è facile, 
+
+tutto ciò a cui accediamo lo mettiamo anche nella cache, ma poi a un 
+
+certo punto la cache si riempirà e occorrerà capire "chi buttare giù 
+
+dalla torre?" quale dato presumibilmente non sarà utile nell' 
+
+immediato futuro e quindi si potrà pensare di scaricarlo dalla 
+
+cache, e questi sono i così detti ALGORITMI di REPLACEMENT, 
+
+(di rimpiazzo, per cambiare). ok? E a questo punto vedremo 
+
+meccanismi per varie funzionalità del Sistema Operativo. Occorre creare 
+
+un euristica che abbia senso, non c'è "la" soluzione. Allora per 
+
+esempio uno può pensare di cercare la pagina accaduta meno 
+
+recente mento (la pagina... l'elemento di cache che è lì da più 
+
+tempo e che non è stato acceduto, quindi si presuppone che non 
+
+sia utile) oppure si può pensare di guardare la Frequenza di 
+
+accesso (quell'elemento della cache è stato acceduto frequentemente 
+
+quindi nel futuro si pensa che...) 
+
+vedete è un "processo" o. INERZIA, si tenta di vedere qual'è 
+
+il comportamento nel prossimo futuro analizzando il comportamento 
+
+nel passato prossimo, abbiamo parlato delle previsioni del 
+
+tempo, il concetto è lo stesso. Quindi l'algoritmo di 
+
+replacement decide qual'è l'elemento da eliminare nella 
+
+cache quando bisogna aggiungerne un altro, ovviamente l'elemento 
+
+• • • 
+
+che deve essere eliminato deve essere aggiornato nella memoria 
+
+reale se sono avvenute delle operazioni di modifica. 
+
+Come si sceglie l'algoritmo di replacement? 
+
+C'è un trade-off fra quello più statisticamente performante 
+
+e le strutture dati che bisogna mantenere per poter far 
+
+funzionare quella data. Che ne so se uno vuole tenere 
+
+traccia mano mano di quella mina meno recentemente 
+
+utilizzato deve tenere una struttura dati da aggiornare ad 
+
+ogni accesso per fare una lista per vedere quale è il 
+
+più utilizzato e quello meno, se uno deve tenere la frequenza 
+
+deve tenere per ogni elemento un contatore che ad ogni 
+
+accesso venga incrementato. 
+
+L'altro problema è la carenza, siccome la cache è una 
+
+copia, è una copia in una memoria più veloce, quindi quel dato 
+
+che logicamente è lo stesso dato, è presente in più replicazioni 
+
+in punti diversi della gerarchia di memoria. 
+
+Deve essere coerente. Come dicevo prima deve fare in 
+
+modo che la cache alla fine sia trasparente, esserci o non 
+
+esserci il risultato non cambia se non il tempo per produrre 
+
+il risultato. 
+
+(pag 32) Ancora l'hardware. I meccanismi di protezione. 
+
+I processi in esecuzione su un sistema operativo non devono interferire 
+
+tra loro, devono poter comunicare e .... Quindi una cosa sono 
+
+i servizi forniti dal Sistema operativo per operazioni ordinarie, 
+
+lecite, una cosa è se accidentalmente o volontariamente un 
+
+processo può riuscire a perturbare/disturbare/rovinare 
+
+• • • 
+
+l'esecuzione di un altro processo o addirittura del sistema 
+
+operativo stesso. Come si fa ad evitare che ci siano queste 
+
+interazioni non volute? Sicuramente non è possibile farlo 
+
+totalmente via software, occorre una mano dall'hardware. 
+
+Studente: Questo perché potrebbe fallire via software, quindi abbiamo 
+
+bisogno di un "ultima spiaggia"? 
+
+" " 
+
+Occorre creare una barriera, cosa può fare il processo e cosa no? 
+
+se un processo potesse direttamente accedere all'unità di 110 
+
+potrebbe rovinare il lavoro degli altri, se un processo potesse 
+
+accedere direttamente alla memoria degli altri potrebbe rovinare 
+
+il funzionamento. Esiste del codice che deve poter accedere 
+
+alla memoria degli altri, il kernel, quindi quello che dobbiamo 
+
+chiedere al sistema è che si dia il modo di riconoscere gli 
+
+umani dagli dei, di riconoscere i processi che possono fare poche 
+
+cose, i processi che possono essere cattivi, possono essere... 
+
+sono quelli da controllare e che non devono produrre danno 
+
+e i controllori, cioé la parte di codice che è affidabile e controlla 
+
+il resto delle cose. Quindi il punto chiave che la cosidetta 
+
+"modalità protetta", quando hanno inventato i Personal 
+
+Computer, con il 6502, penso ad Apple 2, oppure con i 
+
+8086, 8088 Intel, penso ai PC IBM, questi erano processori 
+
+che non avevano modalità protetta. Cos'è la modalità protetta? 
+
+Il processore ha un bit (pag 33) (o simili, prendiamo I bit 
+
+poi vi spiego che in Intel c'è una cosa leggermente diversa)' 
+
+comunque ha 1 lit, se quel bit è modalità kernel 
+
+il codice che è in esecuzione può fare tutto quello che vuole e 
+
+• • • 
+
+ha pieno accesso al sistema, se invece il bit è spento in 
+
+modalità user, in modalità user il codice, il processore è 
+
+configurato in maniera tale che ci sono solo le operazioni NON 
+
+privilegiate in funzione. Quando un processo è in modalità 
+
+kernel può volontariamente fare tutto, tra le varie operazioni, 
+
+può anche dire "adesso vado in modalità user". Un 
+
+processo in modalità user può fare solo quello che gli è 
+
+concesso e l'unica cosa che può succedere è che arrivi un 
+
+interrupt o una trap e nella gestione dell' interrupt o della 
+
+trop, non per volontà diretta del processo, o meglio non con 
+
+codice sotto controllo del processo... il processo può chiedere 
+
+system call, però a quel punto il resto della gestione 
+
+viene fatta dal kernel. Vi dicevo, i primi PC avevano dei 
+
+processori che non avevano queste funzionalità e quindi non 
+
+era fisicamente possibile scrivere sistemi operativi affidabili, sicuri. 
+
+A seconda dell'autore o del processore troverete la modalità 
+
+kernel indicata come modalità privilegiata, modalità supervisore, 
+
+ring 0. Ecco gli Intel hanno questa idea, 4 livelli di priorità, 
+
+ring 0, ring 1, ring 2, ring 3, di fatto ring O è la modalità 
+
+kernel e le altre sono modalità non privilegiate a scalare. 
+
+Normalmente i Sistemi Operativi che ho visto su Intel usano 
+
+0 e 3 come ring. Per esempio le istruzioni per disabilitare gli 
+
+interrupt è privilegiata. Un processo che è in esecuzione in 
+
+modalità user non può disabilitare gli interrupt, se disabilitasse 
+
+gli interrupt diventerebbe monopolista della CPU; non può 
+
+cambiare le mappe di memoria della MMU. In realtà nei 
+
+• • • 
+
+sistemi moderni l'accesso alla memoria è non privilegiato perché 
+
+è la configurazione della MMU è privilegiata. Quindi il processo 
+
+accede liberamente alla memoria, ma siccome gli indirizzi che genera 
+
+sono indirizzi logici e la MMU glieli traduce, lui può generare 
+
+tutti gli indirizzi che vuole, quelli che la MMU non li consente 
+
+non li vedrà mai. ok? E per cambiare la mappa di configurazione 
+
+della MMU ci vogliono operazioni privilegiate, quindi lui non le 
+
+può fare, lo può fare solo il kernel. (pag 34) 
+
+Alla partenza il processore è in modalità kernel. 
+
+[o.. domanda studente e breve risposta...fm in 52: 50-53: 45)...]. 
+
+Al bootstrap (quando si inizia) il sistema è in modalità kernel. 
+
+Quindi normalmente il sistema parte, fa l'inizializzazione, 
+
+crea a mano lo stato del primo processo, chiama la scheduler, 
+
+lo scheduler di CPU è chiamato a dire "adesso qual'è il prossimo 
+
+processo che va avanti", al boa non ha molta scelta ce' n'è 
+
+solo uno, guardacaso sceglierà quello, e a quel punto cede il 
+
+controllo al primo processo e siccome lui può farlo cede il 
+
+controllo e lo mette in m'odalità user. Il primo processo 
+
+allora inizia ad eseguire, a fare il codice che deve fare, è 
+
+in modalità user, non può fare altro che fare calcoli 
+
+ed accedere alla memoria, e a quel punto delle due una: 
+
+o accade un Interrupt o accade una trop. 
+
+A quel punto quando accade l'interrupt o la trop, 
+
+l'hardware passa da modalità utente a modalità 
+
+kernel ad eseguire il codice kernel, e il gioco continua, 
+
+o 
+
+1.
+2.
+viene gestito l'interrupt o la trop, si chiama lo scheduler, 
+
+• • • 
+
+si fa partire un processo o quello o un altro in modalità user 
+
+e continua così il ciclo del sistema operativo. (pag 35) 
+
+Questo è il meccanismo su cui si basano tutte le altre protezioni. 
+
+Accedere direttamente ai device in modalità user è vietato, uno 
+
+lo deve chiedere tramite una system call di fare l'operazione. 
+
+Quindi il fatto che il kernel funzioni in modalità privilegiata 
+
+e controlli tutto, fa in modo che il kernel possa, senza poter 
+
+ricevere interferenze dal processo utente, decidere quello che si 
+
+può e quello che non si può fare. Quando arriva una 
+
+system call che dice" voglio accedere a quel file", dice "no, 
+
+non è tuo e non hai il permesso", ma non c'è nulla 
+
+sul disco, non c'è nulla hardware che faccia la protezione 
+
+a livello del file-system, semplicemente è protetta la 
+
+system call e la system call viene eseguito in modalità 
+
+kernel e il codice del kernel va poi a vedere con tabelle 
+
+sue, sue strutture dati quello che si può o non si può 
+
+fare e risponde "picche" o risponde "ok" alla richiesta 
+
+di operazioni. Questo è il nucleo centrale di protezione, 
+
+mi raccomando modo kernel e modo user sono 
+
+modi del processore, non c'entra niente anche se c'è 
+
+scritto supervisore, modo supervisore è una cosa del 
+
+processore. Superuser Root sono cose del filesystem, 
+
+sono utenti generati dal sistema, sono astrazioni che vi dà 
+
+il sistema operativo. Ok? Anche un processo di root è 
+
+in modalità user, è un processo come gli altri, solo che 
+
+la system call open va a vedere chi è l'utente (che 
+
+• • • 
+
+è un concetto implementato dal sistema operativo) 
+
+"chi è l'utente che fa questa operazione?" dice "ah è rod, 
+
+allora a root è concesso". Se un processo che è in 
+
+esecuzione come rod vuole accedere a /der/sola 1 
+
+(direttamente al disco) il processo è in modalità 
+
+user in realtà non accede direttamente al disco. Il 
+
+processo fa una system call open, la system call viene 
+
+eseguita in modalità kernel, dice" Può accedere in scrittura 
+
+a /devis dal? " "sì" allora da l'ok alla open e va 
+
+ad agire sul file. Ma il processo di root funziona 
+
+in modalità user. (pag 36) ok, per l' Accesso alla 
+
+MEMORIA la protezione, come vi dicevo, avviene attraverso 
+
+la Memory Management Unit (MMU). 
+
+Perché c'è questo meccanismo? Se i processi potessero 
+
+accedere alla memoria all' indirizzo che vogliono 
+
+potrebbero modificare il codice, o gli altri degli processi, 
+
+modificare i dati e il codice del sistema operativo, 
+
+modificare l' interrupt vector e mettere il proprio 
+
+gestore dell' interrupt. Comunque, come vi dicevo, la MMU 
+
+fa la traduzione degli indirizzi logici in indirizzi fisici, 
+
+è una funzione che ha il suo Dominio e il suo Codominio. 
+
+Se voi applicate una funzione un dato potrà generare solo 
+
+risoluzioni/valori nel Codominio. Se la memoria vietata non 
+
+appartiene al Codominio potete dare tutti i dati che volete 
+
+alla funzione e non succederà mai nulla. (pag 37) ok. 
+
+(pag 38) le istruzioni di 110 sono privilegiate. Come fa un 
+
+• • • 
+
+processo utente a fare operazioni privilegiate? Chiamo. le 
+
+system call, ovvero sono trop generate da istruzioni specifiche. 
+
+Nei vecchi sistemi Intel proprio il processo corrente generava 
+
+un interrupt, direi 0×80, ciò aveva l'istruzione per fare 
+
+un interrupt come quello dell'hardware. Nei moderni sistemi 
+
+C'è una chiamata apposta, chiamato SYSTEM call, che 
+
+risulta essere più efficiente. (pag 39, figura) Quindi 
+
+la system call si comporta come la gestione degli interrupt 
+
+che abbiamo visto prima, software ma è un interrupt, 
+
+quindi quando fa la syscall si salvano i registri, si 
+
+gestisce, si fa l'operazione, si ripristinano i registri e 
+
+si fa continuare il processo, oppure se è bloccante fra il 
+
+ripristino servizi e il ritorno dell'interrupt viene scelto 
+
+un altro processo se c'è si manda avanti. 
+
+Ecco mi fa venire in mente una cosa che vi dico 
+
+prima della pausa, perché questo è l'ultimo lucido di 
+
+questo pacco. Probabilmente cambio, aggiornerà i lucidi, 
+
+ecco ho pensato che aggiornerà questo lucido (f 6) 
+
+queste scritte qua a sinistra, invece che scrivere, perché . 
+
+gli interrupt possono essere interrupt del hardware o 
+
+del software. Qui mettendo queste parole fa confusione. 
+
+Al posto della parola hardware metterà processore, 
+
+al posto della parola software scrivete codice. 
+
+Gli interrupt possono essere sia dei dispositivi sia per 
+
+errori o system call. Per ciascuno di questi tipi c'è una 
+
+parte di elaborazione fatta dal processore (in alto) e una parte 
+
+che viene fatta dal codice. Ok. così non c'è fraintendimento. 
+
+pausa (registrazioni minuto 1:03:45). 
+
+• • • 
+
+fine della pausa. (02-anch-o s. pdf pag 1) .

@@ -6,6 +6,7 @@ Va in starvation perché l'unico modo che si alzi è che arrivino macchine,
 ma potrebbero non arrivare mai.
 
 grazie flecs per l'intervento su telegram!
+passa a errato 3 per vedere come viene risolto
 */
 
 // http://www.cs.unibo.it/~renzo/so/compiti/2018.02.12.tot.pdf
