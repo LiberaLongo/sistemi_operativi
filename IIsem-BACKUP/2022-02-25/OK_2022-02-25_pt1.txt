@@ -29,7 +29,7 @@ di qualche genere diciamo per molti arduini è il 328
 e che sarebbe un degno sistema però per inserire, per 
 caricare il programma avrebbe bisogno di un device 
 esterno. L'arduino è di fatto un microcontrollore con 
-in più un leader, un leader che viene precaricato, 
+in più un loader, un loader che viene precaricato, 
 che viene mantenuto in una epron (più che in una 
 epron in una non volatile... una eepron). Arduino 
 at-mega non è una macchina di Von Neumann è 
@@ -62,7 +62,7 @@ possono essere o non essere e che se ci sono o non
 ci sono si evince dal fatto se l'interfaccia delle 
 system call di questi sistemi prevede o meno 
 funzionalità chiamate specifiche per queste funzioni. 
-Se manca tutta la classe di systemicall per definire 
+Se manca tutta la classe di system call per definire 
 chi è l'utente del processo corrente e cambiare l'utente 
 del processo corrente il sistema non sarà multi-user, ma 
 sarà pensato per fare programmi senza protezione tra 
