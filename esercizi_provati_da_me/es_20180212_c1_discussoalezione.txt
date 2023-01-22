@@ -99,7 +99,7 @@ monitor bridge {
 				abbassato = True;		//abbasso il ponte, per far passare le auto
 		}
 
-		if( CAR_CAN_GO() && waiting_boat == 0 )
+		if( CAR_CAN_GO() )
 			okToCar.signal();	//sblocco una sola auto indipendentemente dalla direzione
 	}
 
