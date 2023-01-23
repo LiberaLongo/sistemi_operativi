@@ -1,0 +1,21 @@
+gestione processi
+
+memoria
+
+gestione device
+
+gestione file
+
+gestione file system
+
+gestione tempo
+
+gestione utenti
+
+gestione rete 
+
+ipc
+
+debug
+
+misc 
