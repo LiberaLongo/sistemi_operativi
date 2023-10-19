@@ -1,0 +1,26 @@
+class Semaphore {
+	private BinarySemaphore mutex(1);
+	int value;
+	BinarySemaphore wait(0)
+	int waiting = 0
+
+	def __init__(v): value = v
+
+	def P():
+		mutex.P()
+		if value > 0:
+			value--
+		  mutex.V()
+		else:
+			waiting++
+		  mutex.V()
+		  wait.P()   // NO FIFO!!!!!
+
+	def V():
+	  mutex.P()
+	  if waiting > 0:
+			waiting--
+	    wait.V()
+		else:
+			value++
+		mutex.V()

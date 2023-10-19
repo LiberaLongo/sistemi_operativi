@@ -1,0 +1,25 @@
+class Semaphore {
+	private BinarySemaphore mutex(1);
+	int value;
+	QueueOfBinSem q = new QueueOfBinSem();
+
+	def __init__(v): value = v
+
+	def P():
+		mutex.P()
+		if value > 0:
+			value--
+		  mutex.V()
+		else:
+			s = new sem(0)
+		  q.add(s)
+		  mutex.V()
+		  s.P()
+
+	def V():
+	  mutex.P()
+	  if q.empty():
+	    q.dequeue.V()
+		else:
+			value++
+		mutex.V()
