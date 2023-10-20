@@ -1,0 +1,62 @@
+philo[i] i = 0...4
+bool eating[i] i= 0...4
+
+<await eating[(i+1)%5] == false && eating[(i+4)%5] == false -> eating[i] = true>
+eat
+<eating[i] = false>
+
+
+--------------
+
+philo[i] i = 0...4
+bool eating[i] i= 0...4
+
+sem mutex(1)
+sem sem[5] (0,0,0,0,0)
+int waiting[5]
+
+mutex.P()
+if (eating[(i+1)%5] || eating[(i+4)%5])
+ waiting[i]++
+ mutex.V()
+ sem[i].P()
+ waiting[i]--
+eating[i] = true
+signal()
+/* eat */
+eating[i] = false
+signal()
+
+signal()
+	if (eating[4] == false && eating[1] == false && waiting[0])
+	  sem[0].V()
+	if (eating[0] == false && eating[2] == false && waiting[1])
+	  sem[1].V()
+	if (eating[1] == false && eating[3] == false && waiting[2])
+	  sem[2].V()
+	if (eating[2] == false && eating[4] == false && waiting[3])
+	  sem[3].V()
+	if (eating[3] == false && eating[0] == false && waiting[4])
+	  sem[4].V()
+----------------
+philo[i] i = 0...4
+bool eating[i] i= 0...4
+
+sem mutex(1)
+sem sem[5] (0,0,0,0,0)
+int waiting[5]
+
+mutex.P()
+if (eating[(i+1)%5] || eating[(i+4)%5])
+ waiting[i]++
+ mutex.V()
+ sem[i].P()
+ waiting[i]--
+eating[i] = true
+/* eat */
+eating[i] = false
+if (eating[(i+2)%5] == false && waiting[(i+1)%5])
+	 sem[(i+1) % 5].V()
+if (eating[(i+3)%5] == false && waiting[(i+4)%5])
+	 sem[(i+4) % 5].V()
+----------------
